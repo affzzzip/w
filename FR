@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frase Motivacional do Dia</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 600px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .frase {
+            font-size: 24px;
+            font-style: italic;
+            color: #2c3e50;
+            line-height: 1.5;
+            margin: 25px 0;
+        }
+        .autor {
+            font-size: 18px;
+            color: #7f8c8d;
+            margin-bottom: 25px;
+        }
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌟 Frase Motivacional 🌟</h1>
+        <div class="frase" id="frase">Carregando...</div>
+        <div class="autor" id="autor"></div>
+        <button onclick="novaFrase()">Nova Frase</button>
+    </div>
+
+    <script>
+        const frases = [
+            { texto: "A persistência é o caminho do êxito.", autor: "Charles Chaplin" },
+            { texto: "O sucesso é a soma de pequenos esforços repetidos dia após dia.", autor: "Robert Collier" },
+            { texto: "Acredite em si mesmo e você será imparável.", autor: "Anônimo" },
+            { texto: "Grandes coisas nunca vêm de zonas de conforto.", autor: "Anônimo" },
+            { texto: "Não importa o quão devagar você vá, desde que você não pare.", autor: "Confúcio" },
+            { texto: "Você é mais corajoso do que acredita, mais forte do que parece e mais inteligente do que pensa.", autor: "A.A. Milne" },
+            { texto: "O fracasso é apenas uma oportunidade para começar de novo, desta vez de forma mais inteligente.", autor: "Henry Ford" },
+            { texto: "O que você faz hoje pode melhorar todos os seus amanhãs.", autor: "Ralph Marston" },
+            { texto: "A jornada de mil milhas começa com um único passo.", autor: "Lao Tzu" },
+            { texto: "Se você quer algo que nunca teve, precisa fazer algo que nunca fez.", autor: "Thomas Jefferson" },
+            { texto: "O único lugar onde o sucesso vem antes do trabalho é no dicionário.", autor: "Vidal Sassoon" },
+            { texto: "A melhor maneira de prever o futuro é criá-lo.", autor: "Peter Drucker" },
+            { texto: "Você nunca é velho demais para definir outro objetivo ou sonhar um novo sonho.", autor: "C.S. Lewis" },
+            { texto: "O sucesso não é final, o fracasso não é fatal: é a coragem de continuar que conta.", autor: "Winston Churchill" },
+            { texto: "A vida é 10% do que acontece comigo e 90% de como eu reajo a isso.", autor: "Charles Swindoll" },
+            { texto: "Não espere por oportunidades, crie você mesmo.", autor: "George Bernard Shaw" },
+            { texto: "O que você pensa, você se torna. O que você sente, você atrai. O que você imagina, você cria.", autor: "Buda" },
+            { texto: "A disciplina é a ponte entre metas e realizações.", autor: "Jim Rohn" },
+            { texto: "Seja a mudança que você deseja ver no mundo.", autor: "Mahatma Gandhi" },
+            { texto: "O único limite para a nossa realização de amanhã são as nossas dúvidas de hoje.", autor: "Franklin D. Roosevelt" },
+            { texto: "Sonhe grande, comece pequeno, mas comece agora.", autor: "Robin Sharma" },
+            { texto: "A felicidade não é algo pronto. Ela vem das suas próprias ações.", autor: "Dalai Lama" },
+            { texto: "O sucesso é ir de fracasso em fracasso sem perder entusiasmo.", autor: "Abraham Lincoln" },
+            { texto: "A melhor vingança é um sucesso estrondoso.", autor: "Frank Sinatra" },
+            { texto: "Nada é impossível, a própria palavra diz 'eu sou possível'.", autor: "Audrey Hepburn" },
+            { texto: "Se você não está disposto a arriscar, esteja disposto a uma vida comum.", autor: "Jim Rohn" },
+            { texto: "O medo é o maior obstáculo ao sucesso. Enfrente-o.", autor: "Paulo Coelho" },
+            { texto: "A diferença entre quem você é e quem você quer ser está no que você faz.", autor: "Anônimo" },
+            { texto: "O trabalho duro supera o talento quando o talento não trabalha duro.", autor: "Tim Notke" },
+            { texto: "Faça o que você pode, com o que você tem, onde você está.", autor: "Theodore Roosevelt" },
+            { texto: "O sucesso é a melhor vingança contra quem duvidou de você.", autor: "Anônimo" },
+            { texto: "Se você quer voar, abandone tudo que pesa.", autor: "Buda" },
+            { texto: "A vida é como andar de bicicleta: para manter o equilíbrio, você precisa se manter em movimento.", autor: "Albert Einstein" },
+            { texto: "Não diga que não tem tempo. Você tem exatamente as mesmas horas do dia que foram dadas a Michelangelo, Pasteur e Einstein.", autor: "H. Jackson Brown Jr." },
+            { texto: "O que você faz hoje determina quem você será amanhã.", autor: "Anônimo" },
+            { texto: "A única maneira de fazer um excelente trabalho é amar o que você faz.", autor: "Steve Jobs" },
+            { texto: "Se você não está feliz com algo, mude. Se não pode mudar, mude sua atitude.", autor: "Maya Angelou" },
+            { texto: "O sucesso não é sobre ser o melhor. É sobre ser melhor do que você era ontem.", autor: "Anônimo" },
+            { texto: "A motivação é o que faz você começar. O hábito é o que faz você continuar.", autor: "Jim Ryun" },
+            { texto: "Você nunca sabe que resultados virão da sua ação. Mas se você não fizer nada, não existirão resultados.", autor: "Mahatma Gandhi" },
+            { texto: "O pessimista vê dificuldade em cada oportunidade. O otimista vê oportunidade em cada dificuldade.", autor: "Winston Churchill" },
+            { texto: "Não deixe que as pessoas te façam desistir daquilo que você mais quer na vida. Acredite. Lute. Conquiste.", autor: "Anônimo" },
+            { texto: "Se você quer ser bem-sucedido, precisa ter dedicação total, buscar seu objetivo e nunca desistir.", autor: "Lionel Messi" },
+            { texto: "A única coisa que fica entre você e seu sonho é a vontade de tentar e acreditar que é possível.", autor: "Joel Brown" },
+            { texto: "O sucesso é construído à noite! Durante o dia você faz o que todos fazem.", autor: "Roberto Shinyashiki" },
+            { texto: "A maior glória em viver não está em nunca cair, mas em nos levantar toda vez que caímos.", autor: "Nelson Mandela" },
+            { texto: "Se você não está disposto a arriscar o usual, terá que se contentar com o ordinário.", autor: "Jim Rohn" },
+            { texto: "A vida é curta para ser pequena.", autor: "Benjamin Disraeli" },
+            { texto: "O segredo para ir em frente é começar.", autor: "Mark Twain" },
+            { texto: "Seja corajoso. Mesmo que você não seja, finja ser. Ninguém nota a diferença.", autor: "H. Jackson Brown Jr." },
+            { texto: "A única pessoa que você está destinado a se tornar é a pessoa que você decide ser.", autor: "Ralph Waldo Emerson" },
+            { texto: "Não importa quantas vezes você falhe. Você só precisa estar certo uma vez.", autor: "Mark Cuban" },
+            { texto: "A melhor maneira de começar é parar de falar e começar a fazer.", autor: "Walt Disney" },
+            { texto: "A vida é uma aventura ousada ou nada.", autor: "Helen Keller" },
+            { texto: "Não espere por circunstâncias perfeitas. Aja agora.", autor: "Anônimo" },
+            { texto: "O sucesso é a soma de pequenos esforços repetidos todos os dias.", autor: "Robert Collier" },
+            { texto: "Se você quer viver uma vida feliz, amarre-a a um objetivo, não a pessoas ou coisas.", autor: "Albert Einstein" },
+            { texto: "A única limitação que você tem é a que você impõe a si mesmo.", autor: "Anônimo" },
+            { texto: "O futuro pertence àqueles que acreditam na beleza de seus sonhos.", autor: "Eleanor Roosevelt" },
+            { texto: "Se você pode sonhar, você pode realizar.", autor: "Walt Disney" }
+        ];
+
+        function exibirFraseAleatoria() {
+            const randomIndex = Math.floor(Math.random() * frases.length);
+            const fraseSelecionada = frases[randomIndex];
+            document.getElementById('frase').textContent = `"${fraseSelecionada.texto}"`;
+            document.getElementById('autor').textContent = `— ${fraseSelecionada.autor}`;
+        }
+
+        function novaFrase() {
+            exibirFraseAleatoria();
+        }
+
+        // Exibe uma frase aleatória ao carregar a página
+        window.onload = exibirFraseAleatoria;
+    </script>
+</body>
+</html>
